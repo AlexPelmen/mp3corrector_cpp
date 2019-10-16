@@ -1,10 +1,12 @@
 #include "corrector.h"
 
+//constructor
 Corrector::Corrector(fs::path _path_to_ffmpeg)
 {
 	ffmpeg_path = _path_to_ffmpeg;
 }
 
+//executes cmd command for song object
 void Corrector::process(Song * song)
 {
 	string cmd = ffmpeg_path.string() + " -i ";	//ffmpeg
@@ -18,7 +20,7 @@ void Corrector::process(Song * song)
 	system( cmd.c_str() );	//exec
 }
 
-
+//call process for every song in songbuilder
 void Corrector::process( SongBuilder songbuilder )
 {
 	while (Song* song = songbuilder.get_song()) 

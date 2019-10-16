@@ -1,7 +1,8 @@
 #include "dirmanager.h"
 
-extern Logger Log;
+extern Logger Log;	//form mp3corrector
 
+//constructor
 DirManager::DirManager( fs::path _path )
 {
 	folder = _path;
@@ -17,7 +18,7 @@ DirManager::DirManager( fs::path _path )
 }
 
 
-//get name of the twin directory
+//create twin directory
 string DirManager::create_twin_folder()
 {
 	string twin_folder = fs::basename(folder) + "_corrected";
@@ -36,6 +37,7 @@ string DirManager::create_twin_folder()
 	return mkdir_path.string();
 }
 
+//create subfolders in the twin folder
 void DirManager::create_subfolders()
 {
 	for ( const auto& path : folders )
@@ -50,6 +52,7 @@ void DirManager::create_subfolders()
 	cout << "subs" << endl;
 }
 
+//searches all .mp3s and subfolders in the folder
 void DirManager::find_files()
 {
 	filelist files_and_folders{ fs::recursive_directory_iterator(folder),

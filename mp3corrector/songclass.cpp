@@ -1,5 +1,6 @@
 #include "songclass.h"
 
+//constructor
 Song::Song(fs::path _path, fs::path _path_out )
 {
 	path = _path;
@@ -10,6 +11,7 @@ Song::Song(fs::path _path, fs::path _path_out )
 	}
 }
 
+
 //checks if the name is suitable for mp3corrector
 bool Song::is_suitable_name()
 {	
@@ -17,14 +19,17 @@ bool Song::is_suitable_name()
 	return strstr(basename.c_str(), " - ") ? true : false;
 }
 
+
+//get id3s from the name of the file
 void Song::get_id3s()
 {
 	vector<char> title_v;
 	vector<char> artist_v;
-
 	string basename = fs::basename(path);
 	bool flag = false;
 
+	//all chars before '-' would be written to artist
+	//after - to title
 	for (int i = 0; basename[i] != '\0'; i++)
 	{
 		char c = basename[i];

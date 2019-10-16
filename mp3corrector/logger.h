@@ -7,11 +7,10 @@ using namespace std;
 
 class Logger {
 public:
+	//just outputs message
 	void out(string txt) { cout << txt << endl; }
-	void stop(string txt)
-	{
-		cout << txt << endl;
-		system("pause");
-	}
+
+	//outputs message and stop programm
+	void stop(string txt);
 };
 

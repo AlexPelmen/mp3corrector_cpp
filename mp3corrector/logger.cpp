@@ -2,4 +2,11 @@
 #include "logger.h"
 
 
-/* TODO LETTER*/
+//output message and stop
+void Logger::stop(string txt)
+{
+	{
+		cout << txt << endl;
+		system("pause");
+	}
+}
