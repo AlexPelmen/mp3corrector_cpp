@@ -6,11 +6,12 @@ using namespace std;
 //Check path to ffmpeg 
 void UserData::get_ffmpeg_from_user()
 {
+	string path;
 	try {
 		cout << "Input path to 'ffmpeg.exe': " << endl;
-		getline(cin, ffmpeg);	//get data from user
+		getline(cin, path);	//get data from user
 
-		string cmd = ffmpeg + " -version";
+		string cmd = path + " -version";
 		cout << endl;
 		int code = system(cmd.c_str());
 		cout << endl;
@@ -18,6 +19,8 @@ void UserData::get_ffmpeg_from_user()
 			Log.stop("Error with ffmpeg, code - " + std::to_string(code));
 			exit(0);
 		}
+
+		ffmpeg = path;	//set path to ffmpeg
 	}
 	catch (int err) {			//smth wrong with opening
 		Log.stop("Wrong ffmpeg path! Use -h fro help");
@@ -27,54 +30,23 @@ void UserData::get_ffmpeg_from_user()
 
 
 
-//Foo to convert string to wstring
-std::wstring ConvertStringToWstring(const std::string &str)
-{
-	if (str.empty())
-	{
-		return std::wstring();
-	}
-	int num_chars = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, str.c_str(), str.length(), NULL, 0);
-	std::wstring wstrTo;
-	if (num_chars)
-	{
-		wstrTo.resize(num_chars);
-		if (MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS, str.c_str(), str.length(), &wstrTo[0], num_chars))
-		{
-			return wstrTo;
-		}
-	}
-	return std::wstring();
-}
-
-
-
 //get user input with folder
 void UserData::get_folder_from_user()
 {
+	string path;
 	try {
 		cout << "Input path to folder with mp3 filse: " << endl;
-		getline(cin, folder);	//get data from user
-		bool test = is_dir(folder);	//check
+		getline(cin, path);	//get data from user
+		bool test = boost::filesystem::is_directory(path);	//check
 		if (!test)
 			throw 1;
+
+		folder = path;	//set the path ot folder
 	}
 	catch (int err) {
 		Log.stop("Wrong path to folder!");
 		exit(0);
 	}
-}
-
-
-
-//checks if the path is directory
-bool UserData::is_dir(string filename)
-{
-	wstring filename_w = ConvertStringToWstring(filename);
-	DWORD dwFileAttributes = GetFileAttributes(filename_w.c_str());
-	if (dwFileAttributes == 0xFFFFFFFF)
-		return false;
-	return dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
 }
 
 
